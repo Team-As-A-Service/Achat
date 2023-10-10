@@ -1,3 +1,4 @@
+
 package tn.esprit.rh.achat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,20 +75,21 @@ public class MockitoTest {
 //            .andExpect((ResultMatcher) jsonPath("$[2].libelleStock", is("alimentaire")));
 //}
 
-@Test
+    @Test
     public void getStockTest(){
-    System.out.println(" get test stock");
-    long id = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-    long id2 = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+        System.out.println(" get test stock");
+        long id = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+        long id2 = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 
-    repository = mock(StockRepository.class);
-    service = new StockServiceImpl(repository);
+        repository = mock(StockRepository.class);
+        service = new StockServiceImpl(repository);
 
-    List<Stock> stockList = new ArrayList<>();
-    stockList.add(new Stock(id,"alimentaire",100,5));
-    stockList.add(new Stock(id2,"vest",50,10));
-when(repository.findAll()).thenReturn(stockList);
+        List<Stock> stockList = new ArrayList<>();
+        stockList.add(new Stock(id,"alimentaire",100,5));
+        stockList.add(new Stock(id2,"vest",50,10));
+        when(repository.findAll()).thenReturn(stockList);
+
+    }
 
 }
 
-}

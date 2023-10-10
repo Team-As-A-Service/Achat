@@ -65,6 +65,12 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>org.jacoco.agent</artifactId>
+			<version>0.8.7</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -82,7 +88,40 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.6</version>
+				<executions>
+					<!--first execution : for preparing JaCoCo runtime agent-->
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!--second execution : for creating code coverage reports-->
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
 		</plugins>
+			<pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<version>3.4.0.905</version>
+					</plugin>
+				</plugins>
+			</pluginManagement>
 	</build>
 
 </project>

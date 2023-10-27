@@ -71,15 +71,7 @@
 			<version>0.8.7</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Deploy to Nexus -->
-		<distributionManagement>
-			<repository>
-				<id>admin</id>
-				<name>Nexus Repository</name>
-				<url>http://http://192.168.56.2:8081/repository/maven-releases//repository/maven-releases/</url>
-			</repository>
-		</distributionManagement>
-
+		
 	</dependencies>
 
 	<build>
@@ -131,5 +123,13 @@
 				</plugins>
 			</pluginManagement>
 	</build>
+<!-- Deploy to Nexus -->
+		<distributionManagement>
+			<repository>
+				<id>admin</id>
+				<name>Nexus Repository</name>
+				<url>http://http://192.168.56.2:8081/repository/maven-releases//repository/maven-releases/</url>
+			</repository>
+		</distributionManagement>
 
 </project>

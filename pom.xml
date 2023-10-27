@@ -128,7 +128,7 @@
 			<repository>
 				<id>admin</id>
 				<name>Nexus Repository</name>
-				<url>http://http://192.168.56.2:8081/repository/maven-releases//repository/maven-releases/</url>
+				<url>http://192.168.56.2:8081/repository/maven-releases/</url>
 			</repository>
 		</distributionManagement>
 

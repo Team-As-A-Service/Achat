@@ -14,8 +14,8 @@ import java.util.List;
 @Slf4j
 public class StockServiceImpl implements IStockService {
 
-	
-	private final StockRepository StockRepository;
+
+	public StockRepository StockRepository;
 
 	@Autowired
     public StockServiceImpl(StockRepository stockRepository) {

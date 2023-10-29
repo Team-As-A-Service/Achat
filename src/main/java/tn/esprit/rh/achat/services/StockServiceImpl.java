@@ -15,11 +15,11 @@ import java.util.List;
 public class StockServiceImpl implements IStockService {
 
 
-	public StockRepository StockRepository;
+	public StockRepository stockRepository;
 
 	@Autowired
     public StockServiceImpl(StockRepository stockRepository) {
-        this.StockRepository = stockRepository;
+        this.stockRepository = stockRepository;
     }
 
 
@@ -27,7 +27,7 @@ public class StockServiceImpl implements IStockService {
 	public List<Stock> retrieveAllStocks() {
 		// récuperer la date à l'instant t1
 		log.info("In method retrieveAllStocks");
-		List<Stock> stocks = StockRepository.findAll();
+		List<Stock> stocks = stockRepository.findAll();
 		for (Stock stock : stocks) {
 			log.info(" Stock : " + stock);
 		}
@@ -41,28 +41,28 @@ public class StockServiceImpl implements IStockService {
 	public Stock addStock(Stock s) {
 		// récuperer la date à l'instant t1
 		log.info("In method addStock");
-		return StockRepository.save(s);
+		return stockRepository.save(s);
 		
 	}
 
 	@Override
 	public void deleteStock(Long stockId) {
 		log.info("In method deleteStock");
-		StockRepository.deleteById(stockId);
+		stockRepository.deleteById(stockId);
 
 	}
 
 	@Override
 	public Stock updateStock(Stock s) {
 		log.info("In method updateStock");
-		return StockRepository.save(s);
+		return stockRepository.save(s);
 	}
 
 	@Override
 	public Stock retrieveStock(Long stockId) {
 		long start = System.currentTimeMillis();
 		log.info("In method retrieveStock");
-		Stock stock = StockRepository.findById(stockId).orElse(null);
+		Stock stock = stockRepository.findById(stockId).orElse(null);
 		log.info("out of method retrieveStock");
 		 long elapsedTime = System.currentTimeMillis() - start;
 		log.info("Method execution time: " + elapsedTime + " milliseconds.");
@@ -77,7 +77,7 @@ public class StockServiceImpl implements IStockService {
 		String msgDate = sdf.format(now);
 		StringBuilder finalMessage = new StringBuilder();
 		String newLine = System.getProperty("line.separator");
-		List<Stock> stocksEnRouge = StockRepository.retrieveStatusStock();
+		List<Stock> stocksEnRouge = stockRepository.retrieveStatusStock();
 
 		for (Stock stock : stocksEnRouge) {
 			finalMessage.append(newLine)

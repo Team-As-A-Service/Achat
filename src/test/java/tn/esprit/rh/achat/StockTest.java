@@ -1,59 +1,100 @@
 package tn.esprit.rh.achat;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import tn.esprit.rh.achat.entities.Stock;
 import tn.esprit.rh.achat.repositories.StockRepository;
 import tn.esprit.rh.achat.services.StockServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = {StockServiceImpl.class})
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class StockTest {
 
-    @MockBean
-    private StockRepository stockRepository;
+    @Mock
+    StockRepository stockRepository;
 
-    @Autowired
-    private StockServiceImpl stockService;
-
-    @Test
-    void testRetrieveAllStocks() {
-    // Create an empty list for testing
-    List<Stock> stockList = new ArrayList<>();
-
-    // Mock the behavior of the stockRepository to return the empty list
-    when(stockRepository.findAll()).thenReturn(stockList);
-
-    // Test the retrieveAllStocks method
-    List<Stock> actualRetrieveAllStocksResult = stockService.retrieveAllStocks();
-
-    // Verify that the method returns the expected empty list
-    assertNotNull(actualRetrieveAllStocksResult);
-    assertTrue(actualRetrieveAllStocksResult.isEmpty());
-    verify(stockRepository).findAll();
-}
-
+    @InjectMocks
+    StockServiceImpl stockService;
 
     @Test
-    void testDeleteStock() {
-        doNothing().when(stockRepository).deleteById(any(Long.class));
-        stockService.deleteStock(123L);
-        verify(stockRepository).deleteById(123L);
+    public void createStockTest() {
+        Stock stock = new Stock(null, "Test Stock", 100, 10);
+        stock.setIdStock(1L);
+
+        stockService.addStock(stock);
+
+        // Verify that the 'save' method of the repository is called with the correct argument
+        verify(stockRepository, times(1)).save(stock);
+        System.out.println(stock);
+        System.out.println("createStockTest -> It's working!");
     }
 
-    // You can similarly write test cases for other methods like addStock, updateStock, retrieveStock, and retrieveStatusStock.
+    @Test
+    public void testRetrieveStock() {
+        Stock stock = new Stock(null, "Test Stock", 100, 10);
+        stock.setIdStock(1L);
+
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+        Stock retrievedStock = stockService.retrieveStock(1L);
+        assertEquals(stock, retrievedStock);
+        System.out.println(retrievedStock);
+        System.out.println("testRetrieveStock -> It's working!");
+    }
+
+    @Test
+    public void getAllStocksTest() {
+        List<Stock> stockList = new ArrayList<Stock>() {
+            {
+                add(new Stock(null, "Stock 1", 50, 5));
+                add(new Stock(null, "Stock 2", 75, 8));
+                add(new Stock(null, "Stock 3", 120, 12));
+            }
+        };
+
+        when(stockRepository.findAll()).thenReturn(stockList);
+
+        List<Stock> retrievedStockList = stockService.retrieveAllStocks();
+        assertEquals(3, retrievedStockList.size());
+        System.out.println("getAllStocksTest -> It's working!");
+    }
+
+    @Test
+    public void testDeleteStock() {
+        Stock stock = new Stock(null, "Test Stock", 100, 10);
+        stock.setIdStock(1L);
+
+        Mockito.lenient().when(stockRepository.findById(stock.getIdStock())).thenReturn(Optional.of(stock));
+
+        stockService.deleteStock(1L);
+
+        verify(stockRepository).deleteById(stock.getIdStock());
+        System.out.println(stock);
+        System.out.println("testDeleteStock -> It's working!");
+    }
+
+    @Test
+    public void testUpdateStock() {
+        Stock stock = new Stock(null, "Test Stock", 100, 10);
+        stock.setIdStock(1L);
+        stock.setQte(120);
+
+        Mockito.lenient().when(stockRepository.findById(stock.getIdStock())).thenReturn(Optional.of(stock));
+
+        stockService.updateStock(stock);
+
+        verify(stockRepository).save(stock);
+        System.out.println(stock);
+        System.out.println("testUpdateStock -> It's working!");
+    }
 }

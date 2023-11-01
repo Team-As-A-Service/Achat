@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class StockTest {
-
     @InjectMocks
     private StockServiceImpl stockService;
 

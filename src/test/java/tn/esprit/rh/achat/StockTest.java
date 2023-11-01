@@ -9,9 +9,15 @@ import org.mockito.MockitoAnnotations;
 import tn.esprit.rh.achat.entities.Stock;
 import tn.esprit.rh.achat.repositories.StockRepository;
 import tn.esprit.rh.achat.services.StockServiceImpl;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -100,4 +106,37 @@ public class StockTest {
         assertEquals("Stock2", retrievedStock.getLibelleStock());
         assertEquals(20, retrievedStock.getQte());
     }
+    @Test
+    public void testRetrieveStatusStock() {
+        // Arrange
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date now = new Date();
+        List<Stock> stocksEnRouge = Arrays.asList(
+                new Stock(1L, "Stock1", 5, 10),  // Quantity < Min Quantity
+                new Stock(2L, "Stock2", 15, 20), // Quantity >= Min Quantity
+                new Stock(3L, "Stock3", 8, 12)   // Quantity < Min Quantity
+        );
+
+        when(stockRepository.retrieveStatusStock()).thenReturn(
+                stocksEnRouge.stream().filter(stock -> stock.getLibelleStock().equals("Stock1") || stock.getLibelleStock().equals("Stock3"))
+                        .collect(Collectors.toList())
+        );
+
+        // Act
+        String statusMessage = stockService.retrieveStatusStock();
+
+        // Assert
+        assertTrue(statusMessage.contains("le stock Stock1 a une quantité de 5 inférieur à la quantité minimale a ne pas dépasser de 10"));
+        assertFalse(statusMessage.contains("le stock Stock2 a une quantité de 15 inférieur à la quantité minimale a ne pas dépasser de 20"));
+        assertTrue(statusMessage.contains("le stock Stock3 a une quantité de 8 inférieur à la quantité minimale a ne pas dépasser de 12"));
+
+        // Ensure that Stock2 is not in the status message
+        assertFalse(statusMessage.contains("le stock Stock2"));
+
+        // You can add more specific assertions as needed
+    }
+
+
+
+
 }

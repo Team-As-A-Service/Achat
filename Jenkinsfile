@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    environment {
+            SONARQUBE_URL = 'http://192.168.33.130:9000'
+            SONARQUBE_USERNAME = 'admin'
+            SONARQUBE_PASSWORD = 'azerty'
+        }
+
     stages {
         stage('Clonage') {
             steps {
@@ -20,6 +26,13 @@ pipeline {
                         sh 'mvn compile'
                     }
                 }
+              stage('SonarQube Analysis') {
+                         steps {
+                             script {
+                                 sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD}"
+                             }
+                         }
+              }
 
     }
 }

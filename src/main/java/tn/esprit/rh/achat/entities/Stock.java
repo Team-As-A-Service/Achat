@@ -37,4 +37,5 @@ public class Stock implements Serializable {
 		this.qteMin = qteMin;
 	}
 
+
 }

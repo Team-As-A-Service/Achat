@@ -9,21 +9,17 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                script {
-                    sh './gradlew build'
+        stage('Maven Clean') {
+                    steps {
+                        sh 'mvn clean'
+                    }
                 }
-            }
-        }
 
-        stage('Tests') {
-            steps {
-                script {
-                    sh './gradlew test' 
+                stage('Maven Compile') {
+                    steps {
+                        sh 'mvn compile'
+                    }
                 }
-            }
-        }
 
     }
 }

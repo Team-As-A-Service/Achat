@@ -67,11 +67,6 @@ public class StockServiceImpl implements IStockService {
 
 	@Override
 	public String retrieveStatusStock() {
-		return null;
-	}
-
-	/*@Override
-	public String retrieveStatusStock() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		Date now = new Date();
 		String msgDate = sdf.format(now);
@@ -87,6 +82,6 @@ public class StockServiceImpl implements IStockService {
 		}
 		log.info(finalMessage);
 		return finalMessage;
-	}*/
+	}
 
 }

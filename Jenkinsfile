@@ -45,15 +45,15 @@ pipeline {
 
 
 
-stage('Docker build image') {
+    stage('Docker build image') {
             steps {
                 script {
-                    sh 'docker build -t nidhal2/achat:1-0 .'
+                    sh 'docker build -f Dockerfile -t nidhal2/achat:1-0 .'
                 }
             }
 
         }
-        stage('Docker push image') {
+    stage('Docker push image') {
             steps {
                 script {
                     sh "docker login -u nidhal2 -p 213JMT6518 "

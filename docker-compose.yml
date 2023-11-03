@@ -2,25 +2,29 @@ version: '3'
 
 services:
   achat-app:
-    image: jassercloud/categorietest:v1  # Replace with the Docker image for your application
+    image: jassercloud/categorietest:v1
     ports:
-      - "8089:8089"  # Port for the achat application
+      - "8089:8089"
     depends_on:
-      - mysql-db  # Wait for the MySQL service to start
+      - mysql-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/Stock?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createIfNotExist=true  # URL of the MySQL database
-      - SPRING_DATASOURCE_USERNAME=root  # MySQL database username
-      - SPRING_DATASOURCE_PASSWORD= # Leave this empty
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/Stock?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+    networks:
+      - mynetwork  # Assign the service to the 'mynetwork' network
 
   mysql-db:
     image: mysql:5.7
     ports:
-      - "3306:3306"  # Port for the MySQL database
+      - "3306:3306"
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes  # Allow empty password for the root user
-      - MYSQL_DATABASE=Stock  # Name of the MySQL database
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=Stock
     volumes:
-      - mysql-data:/var/lib/mysql  # Storage for MySQL data
+      - mysql-data:/var/lib/mysql
+    networks:
+      - mynetwork  # Assign the service to the 'mynetwork' network
 
-volumes:
-  mysql-data:  # Volume for storing MySQL data
+networks:
+  mynetwork:

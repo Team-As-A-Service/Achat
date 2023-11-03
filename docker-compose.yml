@@ -12,7 +12,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=
     networks:
-      - mynetwork  # Assign the service to the 'mynetwork' network
+      - mynetwork
 
   mysql-db:
     image: mysql:5.7
@@ -22,9 +22,12 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=Stock
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql  # Declare the named volume here
     networks:
-      - mynetwork  # Assign the service to the 'mynetwork' network
+      - mynetwork
 
 networks:
   mynetwork:
+
+volumes:
+  mysql-data:  # Declare the named volume here

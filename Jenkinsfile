@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-            SONARQUBE_URL = 'http://192.168.1.23:9000'
+            SONARQUBE_URL = 'http://192.168.1.11:9000'
             SONARQUBE_USERNAME = 'admin'
             SONARQUBE_PASSWORD = 'adminadmin'
         }
@@ -9,7 +9,12 @@ pipeline {
         stage('Récupération du code de sa propre branche') {
             steps {
                 script {
-                    git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                     try {
+                        git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                    } catch (Exception e) {
+                        echo "Retrying the 'Récupération du code de sa propre branche' stage..."
+                        git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                    }
                 }
             }
         }
@@ -36,5 +41,12 @@ pipeline {
                         sh 'mvn test'
                     }
                 }
+        stage('Nexus deploiment') {
+            steps {
+                script {
+                    sh 'mvn deploy -DskipTests'
+                }
+            }
+        }
     }
 }

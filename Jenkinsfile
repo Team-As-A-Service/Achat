@@ -4,6 +4,9 @@ pipeline {
             SONARQUBE_URL = 'http://192.168.1.11:9000'
             SONARQUBE_USERNAME = 'admin'
             SONARQUBE_PASSWORD = 'adminadmin'
+            registry = "henidevops/devops-backend"
+            registryCredential = 'dockerhub_id'
+            dockerImage = ''
         }
     stages {
         stage('Récupération du code de sa propre branche') {
@@ -48,5 +51,26 @@ pipeline {
                 }
             }
         }
+        stage('Building our image') {
+                    steps {
+                        script {
+                            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                        }
+                    }
+                }
+                stage('Deploy our image') {
+                    steps {
+                        script {
+                            docker.withRegistry( '', registryCredential ) {
+                                dockerImage.push()
+                            }
+                        }
+                    }
+                }
+                stage('Cleaning up') {
+                    steps {
+                        sh "docker rmi $registry:$BUILD_NUMBER"
+                    }
+                }
     }
 }

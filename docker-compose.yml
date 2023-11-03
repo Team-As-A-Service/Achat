@@ -16,7 +16,7 @@ services:
     ports:
       - 8087:8087
   front:
-    image: henidevops/devops-frontend
+    image: henidevops/devops-frontend:33
     restart: unless-stopped
     ports:
       - 80:80

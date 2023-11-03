@@ -2,7 +2,7 @@ version: '3'
 
 services:
   achat-app:
-    image: jassercloud/categorietest:latest  # Remplacez par l'image Docker de votre application
+    image: jassercloud/categorietest:v1  # Remplacez par l'image Docker de votre application
     ports:
       - "8089:8089"  # Port de l'application achat
     depends_on:

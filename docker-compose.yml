@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  achat-app:
+    image: jassercloud/categorietest:latest  # Remplacez par l'image Docker de votre application
+    ports:
+      - "8089:8089"  # Port de l'application achat
+    depends_on:
+      - mysql-db  # Attend que le service MySQL soit démarré
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.56.2:3306/Stock?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createIfNotExist=true  # URL de la base de données MySQL
+      - SPRING_DATASOURCE_USERNAME=root  # Nom d'utilisateur de la base de données MySQL
+      - SPRING_DATASOURCE_PASSWORD= # Mot de passe de la base de données MySQL
+
+  mysql-db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"  # Port de la base de données MySQL
+    environment:
+      - MYSQL_ROOT_PASSWORD=  # Mot de passe root de la base de données MySQL
+    volumes:
+      - mysql-data:/var/lib/mysql  # Stockage des données de la base de données
+
+volumes:
+  mysql-data:  # Volume pour stocker les données de la base de données

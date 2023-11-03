@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:5.7.8
+    restart: unless-stopped
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+  backend:
+    image: henidevops/devops-backend:35
+    restart: unless-stopped
+    ports:
+      - 8087:8087
+  front:
+    image: henidevops/devops-frontend
+    restart: unless-stopped
+    ports:
+      - 80:80
+volumes:
+  db:

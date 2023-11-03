@@ -9,7 +9,12 @@ pipeline {
         stage('Récupération du code de sa propre branche') {
             steps {
                 script {
-                    git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                     try {
+                        git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                    } catch (Exception e) {
+                        echo "Retrying the 'Récupération du code de sa propre branche' stage..."
+                        git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                    }
                 }
             }
         }
@@ -41,20 +46,6 @@ pipeline {
                 script {
                     sh 'mvn deploy -DskipTests'
                 }
-            }
-        }
-    }
-    post {
-        failure {
-            // Retry the 'Build' stage up to 3 times on failure
-            retry(3) {
-                stage('Récupération du code de sa propre branche') {
-            steps {
-                script {
-                    git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
-                }
-            }
-        }
             }
         }
     }

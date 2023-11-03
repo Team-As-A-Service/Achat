@@ -22,7 +22,7 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=Stock
     volumes:
-      - mysql-data:/var/lib/mysql  # Declare the named volume here
+      - mysql-data:/var/lib/mysql  # Declare the named volume heree
     networks:
       - mynetwork
 

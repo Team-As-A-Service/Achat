@@ -9,6 +9,7 @@ services:
     volumes:
       - db:/var/mysql
     environment:
+      MYSQL_ROOT_HOST: '%'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
   backend:
     image: henidevops/devops-backend:35

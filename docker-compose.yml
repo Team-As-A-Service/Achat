@@ -6,7 +6,7 @@ services:
     image: mysql:5.7.8
     restart: unless-stopped
     ports:
-      - 3307:3306
+      - 3306:3306
     volumes:
       - db:/var/mysql
     environment:

@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   mysqldb:
+    container_name: mysqldb
     image: mysql:5.7.8
     restart: unless-stopped
     ports:
@@ -9,8 +10,10 @@ services:
     volumes:
       - db:/var/mysql
     environment:
+      MYSQL_DATABASE: achatdb
       MYSQL_USER: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
   backend:
     depends_on:
       - mysqldb

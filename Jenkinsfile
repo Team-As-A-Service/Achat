@@ -5,7 +5,7 @@ pipeline {
             SONARQUBE_USERNAME = 'admin'
             SONARQUBE_PASSWORD = 'Facebook1'
             registry = "mohamedridhaa/achat-back"
-            registryCredential = 'dockerhub_id'
+            registryCredential = 'DockerHub'
             dockerImage = ''
             
         }

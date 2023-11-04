@@ -5,14 +5,13 @@ services:
     image: mysql:5.7.8
     restart: unless-stopped
     ports:
-      - 3307:3306
+      - 3306:3306
     volumes:
       - db:/var/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ''
       MYSQL_DATABASE: achatdb
       MYSQL_USER: root
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: root
   backend:
     image: henidevops/devops-backend:35
     restart: unless-stopped

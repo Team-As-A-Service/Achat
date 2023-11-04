@@ -4,7 +4,9 @@ pipeline {
             SONARQUBE_URL = 'http://192.168.100.10:9000'
             SONARQUBE_USERNAME = 'admin'
             SONARQUBE_PASSWORD = 'Facebook1'
-           
+            registry = "mohamedridhaa/achat-back"
+            registryCredential = 'dockerhub_id'
+            dockerImage = ''
             
         }
     stages {
@@ -50,7 +52,7 @@ pipeline {
                 }
             }
         }
-       /* stage('Building our image') {
+        stage('Building our image') {
                     steps {
                         script {
                             dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -75,6 +77,6 @@ pipeline {
                                     steps {
                                         sh "docker compose up -d"
                                     }
-                                }*/
+                                }
     }
 }

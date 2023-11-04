@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
-			<artiactId>junit</artiactId>
+			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

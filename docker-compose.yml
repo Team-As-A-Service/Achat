@@ -9,10 +9,11 @@ services:
     volumes:
       - db:/var/mysql
     environment:
-      MYSQL_DATABASE: achatdb
       MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
   backend:
+    depends_on:
+      - mysqldb
     image: henidevops/devops-backend:35
     restart: unless-stopped
     ports:

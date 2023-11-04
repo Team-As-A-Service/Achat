@@ -43,14 +43,14 @@ pipeline {
                         sh 'mvn test'
                     }
                 }
-       /* stage('Nexus deploiment') {
+        stage('Nexus deploiment') {
             steps {
                 script {
                     sh 'mvn deploy -DskipTests'
                 }
             }
         }
-        stage('Building our image') {
+       /* stage('Building our image') {
                     steps {
                         script {
                             dockerImage = docker.build registry + ":$BUILD_NUMBER"

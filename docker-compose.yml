@@ -6,7 +6,7 @@ services:
     image: mysql:5.7.8
     restart: unless-stopped
     ports:
-      - 3307:3306
+      - 3306:3306
     volumes:
       - db:/var/mysql
     environment:
@@ -14,17 +14,32 @@ services:
       MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
+
   backend:
     depends_on:
       - mysqldb
     image: mohamedridhaa/achat-back:33
     restart: unless-stopped
+    environment:
+      SPRING_APPLICATION_JSON: '{
+             "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/achat_db?useSSL=false",
+             "spring.datasource.username" : "root",
+             "spring.datasource.password" : "root",
+             "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+             "spring.jpa.hibernate.ddl-auto" : "update"
+           }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
     ports:
       - 8087:8087
+
   front:
     image: mohamedridhaa/achats:tagname
     restart: unless-stopped
     ports:
       - 80:80
+
 volumes:
   db:

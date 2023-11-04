@@ -12,10 +12,10 @@ pipeline {
             steps {
                 script {
                      try {
-                        git(branch: 'FournisseurTest', credentialsId: 'git-devops', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                        git(branch: 'FournisseurTest', credentialsId: 'github', url: 'git@github.com:Team-As-A-Service/Achat.git')
                     } catch (Exception e) {
                         echo "Retrying the 'Récupération du code de sa propre branche' stage..."
-                        git(branch: 'FournisseurTest', credentialsId: 'git-devops', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                        git(branch: 'FournisseurTest', credentialsId: 'github', url: 'git@github.com:Team-As-A-Service/Achat.git')
                     }
                 }
             }

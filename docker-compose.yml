@@ -27,7 +27,8 @@ services:
       - mynetwork
 
   front-app:
-    image: jassercloud/front:v01  # Replace 'tag' with the actual tag you want to use
+    image: jassercloud/front:v02
+    # Replace 'tag' with the actual tag you want to use
     ports:
       - "4200:4200"  # You might need to adjust the port as per your Angular app configuration
     networks:

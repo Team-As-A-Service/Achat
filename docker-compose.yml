@@ -30,7 +30,7 @@ services:
   front-app:
     image: jassercloud/front:v02
     ports:
-      - "4200:4200"
+      - "4200:80"
     networks:
       - frontend-network
     volumes:

@@ -13,6 +13,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=
     networks:
       - mynetwork
+      - frontend-network
 
   mysql-db:
     image: mysql:5.7
@@ -22,20 +23,25 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=Stock
     volumes:
-      - mysql-data:/var/lib/mysql  # Declare the named volume here
+      - mysql-data:/var/lib/mysql
     networks:
       - mynetwork
 
   front-app:
     image: jassercloud/front:v02
-    # Replace 'tag' with the actual tag you want to use
     ports:
-      - "4200:4200"  # You might need to adjust the port as per your Angular app configuration
+      - "4200:4200"
     networks:
-      - mynetwork
+      - frontend-network
+    volumes:
+      - front-app-data:/usr/share/nginx/html  # Add the volume for the front app
 
 networks:
   mynetwork:
+    driver: bridge
+  frontend-network:
+    driver: bridge
 
 volumes:
-  mysql-data:  # Declare the named volume here
+  mysql-data:
+  front-app-data:  # Define the volume for the front app

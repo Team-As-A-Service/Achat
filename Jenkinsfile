@@ -66,7 +66,7 @@ pipeline {
                 script {
                     // Utilisez docker-compose pour démarrer les conteneurs
                     //def dockerComposePath = '/achat/docker-compose.yml'
-                    sh "docker-compose up -d"
+                    sh "docker compose up -d"
 
                    // def dockerComposePath = "${WORKSPACE}/achat/docker-compose.yml"
                        //         sh "docker-compose -f ${dockerComposePath} up -d"

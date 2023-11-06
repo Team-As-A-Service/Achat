@@ -53,7 +53,7 @@ pipeline {
             }
 
         }
-    stage('Docker push image') {
+    stage('Docker push image ') {
             steps {
                 script {
                     sh "docker login -u nidhal2 -p 213JMT6518 "
@@ -62,6 +62,14 @@ pipeline {
             }
 
         }
+    stage('Start Docker Containers') {
+                    steps {
+                        script {
+                            // Use docker-compose to start the containers
+                            sh "docker-compose up -d"
+                        }
+                    }
+                }
 
 
     }

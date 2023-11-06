@@ -56,6 +56,7 @@ pipeline {
                 script {
                     sh "docker login -u nidhal2 -p 213JMT6518"
                     sh "docker push nidhal2/achat:1-0"
+                    sh "docker logout "
                 }
             }
         }

@@ -30,6 +30,13 @@ services:
     tty: true
     networks:
       - network1
+  angular:
+    image: nidhal2/imagefront:latest
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - network1
 volumes:
   db_data: {}
 networks:

@@ -28,7 +28,7 @@ services:
       - mynetwork
 
   front-app:
-    image: bensalem0iheb/stockfront:v1
+    image: bensalem0iheb/stockfront:v2
     ports:
       - "4200:80"
     networks:

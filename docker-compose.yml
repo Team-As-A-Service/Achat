@@ -13,6 +13,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=
     networks:
       - mynetwork
+      - frontend-network
 
   mysql-db:
     image: mysql:5.7
@@ -26,8 +27,22 @@ services:
     networks:
       - mynetwork
 
+  front-app:
+    image: bensalem0iheb/stockfront:v01
+    ports:
+      - "4200:80"
+    networks:
+      - frontend-network
+    volumes:
+      - front-app-data:/usr/share/nginx/html
+
+
 networks:
   mynetwork:
+    driver: bridge
+  frontend-network:
+    driver: bridge
 
 volumes:
-  mysql-data:  # Declare the named volume here
+  mysql-data:
+  front-app-data:  # Define the volume for the front app

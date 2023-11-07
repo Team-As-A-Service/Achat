@@ -17,12 +17,12 @@ services:
   backend:
     depends_on:
       - mysqldb
-    image: henidevops/devops-backend:80
+    image: mohamedridhaa/achat-back:latest
     restart: unless-stopped
     ports:
       - 8089:8089
   front:
-    image: henidevops/devops-frontend:33
+    image: mohamedridhaa/achats:tagname
     restart: unless-stopped
     ports:
       - 80:80

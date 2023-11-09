@@ -16,7 +16,7 @@ services:
   backend:
     depends_on:
       - mysqldb
-    image: mohamedridhaa/achat-back:43
+    image: mohamedridhaa/achat-back:46
     ports:
       - 8089:8089
   front:

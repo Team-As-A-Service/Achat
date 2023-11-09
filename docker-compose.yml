@@ -17,7 +17,7 @@ services:
     depends_on:
       - mysqldb
     container_name: Back-Achat
-    image: mohamedridhaa/achat-back:49
+    image: mohamedridhaa/achat-back:50
     ports:
       - 8089:8089
   front:

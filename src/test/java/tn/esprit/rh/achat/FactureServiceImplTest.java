@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import tn.esprit.rh.achat.entities.Facture;
@@ -16,12 +17,8 @@ import tn.esprit.rh.achat.repositories.FournisseurRepository;
 import tn.esprit.rh.achat.repositories.OperateurRepository;
 import tn.esprit.rh.achat.services.FactureServiceImpl;
 import tn.esprit.rh.achat.services.ReglementServiceImpl;
-import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -97,6 +94,32 @@ public class FactureServiceImplTest {
         verify(factureRepository).save(facture);
     }
 
+//    @Test
+//    public void testAssignOperateurToFacture() {
+//        // Create a sample Facture and Operateur
+//        Facture facture = new Facture();
+//        facture.setIdFacture(1L);
+//
+//        Operateur operateur = new Operateur();
+//        operateur.setIdOperateur(2L);
+//        operateur.setFactures(new Set<Facture>);
+//
+//        // Stub the repository methods
+//        Mockito.when(factureRepository.findById(1L)).thenReturn(java.util.Optional.of(facture));
+//        Mockito.when(operateurRepository.findById(2L)).thenReturn(java.util.Optional.of(operateur));
+//
+//        // Call the method under test
+//        factureService.assignOperateurToFacture(2L, 1L);
+//
+//        // Verify that the repositories were called as expected
+//        Mockito.verify(factureRepository).findById(1L);
+//        Mockito.verify(operateurRepository).findById(2L);
+//        Mockito.verify(operateurRepository).save(operateur);
+//
+//        // Verify that the Facture was added to the Operateur's Factures
+//        assertEquals(1, operateur.getFactures().size());
+//        assertTrue(operateur.getFactures().contains(facture));
+//    }
     @Test
     public void testRetrieveFacture() {
         // Arrange

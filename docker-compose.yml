@@ -30,9 +30,11 @@ services:
         "spring.jpa.hibernate.ddl-auto" : "update"
       }'
   achat-frontend:
-    image: ahmedsmiai/achat-front
+    image: front1
     restart: on-failure
     ports:
       - 4200:80
+    environment:
+      API_BASE_URL: http://192.168.33.10:8089
 volumes:
   db:

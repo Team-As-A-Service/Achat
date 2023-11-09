@@ -1,82 +1,114 @@
 pipeline {
     agent any
     environment {
-            SONARQUBE_URL = 'http://192.168.100.10:9000'
-            SONARQUBE_USERNAME = 'admin'
-            SONARQUBE_PASSWORD = 'Facebook1'
-            registry = "mohamedridhaa/achat-back"
-            registryCredential = 'DockerHub'
-            dockerImage = ''
-            
-        }
+        SONARQUBE_URL = 'http://192.168.100.10:9000'
+        SONARQUBE_USERNAME = 'admin'
+        SONARQUBE_PASSWORD = 'Facebook1'
+        registry = "mohamedridhaa/achat-back"
+        registryCredential = 'DockerHub'
+        dockerImage = ''
+    }
     stages {
-        stage('Récupération du code de sa propre branche') {
+        stage("clone repo") {
             steps {
                 script {
-                     try {
-                        git(branch: 'FournisseurTest', credentialsId: 'github', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                    try {
+                        git url: 'git@github.com:Team-As-A-Service/Achat.git',
+                            branch: 'FournisseurTest',
+                            credentialsId: 'github'
                     } catch (Exception e) {
-                        echo "Retrying the 'Récupération du code de sa propre branche' stage..."
-                        git(branch: 'FournisseurTest', credentialsId: 'github', url: 'git@github.com:Team-As-A-Service/Achat.git')
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
                     }
                 }
             }
         }
-
-        stage('Lancement de la commande Maven') {
+        stage('MVN CLI') {
             steps {
                 script {
-                    sh 'mvn clean'
-                    sh 'mvn compile'
+                    try {
+                        sh 'mvn clean'
+                        sh 'mvn compile'
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
+                    }
                 }
             }
         }
-
-        stage('SonarQube Analysis') {
-                         steps {
-                             script {
-                                 sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD}"
-                             }
-                         }
-              }
+        stage('SonarQube') {
+            steps {
+                script {
+                    try {
+                        sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD}"
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
+                    }
+                }
+            }
+        }
         stage('Unit Tests') {
-                    steps {
-                        // Étape pour exécuter les tests unitaires
-                        sh 'mvn test'
-                    }
-                }
-        stage('Nexus deploiment') {
             steps {
                 script {
-                    sh 'mvn clean deploy -DskipTests'
+                    try {
+                        sh 'mvn test'
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
+                    }
                 }
             }
         }
-        stage('Building our image') {
-                    steps {
-                        script {
-                            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        stage('Nexus deployment') {
+            steps {
+                script {
+                    try {
+                        sh 'mvn clean deploy -DskipTests'
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
+                    }
+                }
+            }
+        }
+        stage('Building image') {
+            steps {
+                script {
+                    try {
+                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
+                    }
+                }
+            }
+        }
+        stage('Deploy image on Docker') {
+            steps {
+                script {
+                    try {
+                        docker.withRegistry( '', registryCredential ) {
+                            dockerImage.push()
                         }
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
                     }
                 }
-                stage('Deploy our image') {
-                    steps {
-                        script {
-                            docker.withRegistry( '', registryCredential ) {
-                                dockerImage.push()
-                            }
-                        }
+            }
+        }
+        stage('Docker Compose') {
+            steps {
+                script {
+                    try {
+                        sh "docker compose up -d"
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
                     }
                 }
-                stage('Cleaning up') {
-                    steps {
-                        sh "docker rmi $registry:$BUILD_NUMBER"
-                    }
-                }
-                stage('Docker Compose') {
-                                    steps {
-                                        sh "docker compose up -d"
-                                    }
-                                }
+            }
+        }
     }
 }

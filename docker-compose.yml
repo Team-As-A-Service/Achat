@@ -4,7 +4,6 @@ services:
   mysqldb:
     container_name: mysqldb
     image: mysql:5.7.8
-    restart: unless-stopped
     ports:
       - 3306:3306
     volumes:
@@ -12,18 +11,16 @@ services:
     environment:
       MYSQL_DATABASE: achatdb
       MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ridha123
       MYSQL_ROOT_HOST: '%'
   backend:
     depends_on:
       - mysqldb
     image: mohamedridhaa/achat-back:43
-    restart: unless-stopped
     ports:
       - 8089:8089
   front:
     image: mohamedridhaa/achats:tagname
-    restart: unless-stopped
     ports:
       - 80:80
 volumes:

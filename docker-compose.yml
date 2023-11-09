@@ -30,7 +30,7 @@ services:
         "spring.jpa.hibernate.ddl-auto" : "update"
       }'
   achat-frontend:
-    image: front1
+    image: ahmedsmiai/front
     restart: on-failure
     ports:
       - 4200:80

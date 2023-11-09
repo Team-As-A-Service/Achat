@@ -16,10 +16,12 @@ services:
   backend:
     depends_on:
       - mysqldb
-    image: mohamedridhaa/achat-back:47
+    container_name: Back-Achat
+    image: mohamedridhaa/achat-back:48
     ports:
       - 8089:8089
   front:
+    container_name: Front-Achat
     image: mohamedridhaa/achats:tagname
     ports:
       - 80:80

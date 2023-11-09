@@ -95,6 +95,7 @@ pipeline {
                             docker.withRegistry( '', registryCredential ) {
                                 dockerImage.push()
                                 }
+                                 }
                     catch (Exception e) {
                         emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
                         throw e

@@ -15,8 +15,6 @@ pipeline {
                      try {
                         git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
                     } catch (Exception e) {
-                        echo "Retrying the 'Récupération du code de sa propre branche' stage..."
-                        git(branch: 'OperateurTest', credentialsId: 'git-ssh', url: 'git@github.com:Team-As-A-Service/Achat.git')
                         emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
                         throw e
                     }

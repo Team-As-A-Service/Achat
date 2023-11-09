@@ -51,12 +51,14 @@ pipeline {
 
         stage('Unit Tests') {
             steps {
-                try {
-                    // Étape pour exécuter les tests unitaires
-                    sh 'mvn test'
-                } catch (Exception e) {
-                    emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
-                    throw e
+                script {
+                    try {
+                        // Étape pour exécuter les tests unitaires
+                        sh 'mvn test'
+                    } catch (Exception e) {
+                        emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
+                        throw e
+                    }
                 }
             }
         }
@@ -104,22 +106,26 @@ pipeline {
 
         stage('Cleaning up') {
             steps {
-                try {
-                    sh "docker rmi $registry:$BUILD_NUMBER"
-                } catch (Exception e) {
-                    emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
-                    throw e
+                script {
+                    try {
+                        sh "docker rmi $registry:$BUILD_NUMBER"
+                    } catch (Exception e) {
+                        emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
+                        throw e
+                    }
                 }
             }
         }
 
         stage('Docker Compose') {
             steps {
-                try {
-                    sh "docker compose up -d"
-                } catch (Exception e) {
-                    emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
-                    throw e
+                script {
+                    try {
+                        sh "docker compose up -d"
+                    } catch (Exception e) {
+                        emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
+                        throw e
+                    }
                 }
             }
         }

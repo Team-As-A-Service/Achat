@@ -36,6 +36,18 @@ pipeline {
                 }
             }
         }
+        stage('Unit Tests') {
+                    steps {
+                        script {
+                            try {
+                                sh 'mvn test'
+                            } catch (Exception e) {
+                                emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                                throw e
+                            }
+                        }
+                    }
+                }
         stage('SonarQube') {
             steps {
                 script {
@@ -48,18 +60,7 @@ pipeline {
                 }
             }
         }
-        stage('Unit Tests') {
-            steps {
-                script {
-                    try {
-                        sh 'mvn test'
-                    } catch (Exception e) {
-                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
-                        throw e
-                    }
-                }
-            }
-        }
+
         stage('Nexus deployment') {
             steps {
                 script {

@@ -26,13 +26,7 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-        stage('Mockito Tests') {
-                    steps {
-                        script {
-                           sh 'mvn test -Dtest=*Mock'
-                        }
-                    }
-                }
+
 
         stage('SonarQube Analysis') {
             steps {

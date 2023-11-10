@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: achat-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: achat-backend
+  template:
+    metadata:
+      labels:
+        app: achat-backend
+    spec:
+      containers:
+        - name: achat-backend
+          image: ahmedsmiai/achat
+          env:
+            - name: SPRING_APPLICATION_JSON
+              value: '{"spring.datasource.url":"jdbc:mysql://mysqldb:3306/achat_db?useSSL=false","spring.datasource.username":"root","spring.datasource.password":"123456","spring.jpa.show-sql":"true","spring.jpa.properties.hibernate.dialect":"org.hibernate.dialect.MySQL5InnoDBDialect","spring.jpa.hibernate.ddl-auto":"update"}'
+          ports:
+            - containerPort: 8089
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: achat-backend
+spec:
+  type: NodePort
+  selector:
+    app: achat-backend
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 8089
+      nodePort: 30001

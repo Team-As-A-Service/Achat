@@ -36,19 +36,6 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    try {
-                        sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD}"
-                    } catch (Exception e) {
-                        emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
-                        throw e
-                    }
-                }
-            }
-        }
-
         stage('Unit Tests') {
             steps {
                 script {
@@ -62,7 +49,18 @@ pipeline {
                 }
             }
         }
-
+        stage('SonarQube Analysis') {
+                    steps {
+                        script {
+                            try {
+                                sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD}"
+                            } catch (Exception e) {
+                                emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
+                                throw e
+                            }
+                        }
+                    }
+                }
         stage('Nexus deployment') {
             steps {
                 script {

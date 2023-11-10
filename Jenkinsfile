@@ -54,7 +54,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD} -Dsonar.branch.name=${branchName}"
+                                sh "mvn sonar:sonar -Dsonar.branch.name=${branchName} -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD} -Dsonar.branch.name=${branchName}"
                             } catch (Exception e) {
                                 emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
                                 throw e

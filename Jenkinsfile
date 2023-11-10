@@ -4,6 +4,7 @@ pipeline {
         SONARQUBE_URL = 'http://192.168.1.15:9000'
         SONARQUBE_USERNAME = 'admin'
         SONARQUBE_PASSWORD = 'adminadmin'
+        branchName = 'OperateurTest'
         registry = "henidevops/devops-backend"
         registryCredential = 'dockerhub_id'
         dockerImage = ''
@@ -53,7 +54,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD}"
+                                sh "mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.login=${SONARQUBE_USERNAME} -Dsonar.password=${SONARQUBE_PASSWORD} -Dsonar.branch.name=${branchName}"
                             } catch (Exception e) {
                                 emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'heni.m.nechi@gmail.com')
                                 throw e

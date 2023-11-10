@@ -17,7 +17,7 @@ services:
   backend:
     depends_on:
       - mysqldb
-    image: henidevops/devops-backend:99
+    image: henidevops/devops-backend:100
     restart: unless-stopped
     ports:
       - 8089:8089

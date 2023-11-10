@@ -50,11 +50,7 @@ pipeline {
                     }
                 }
         stage('SonarQube') {
-        when {
-                 expression {
-                   (branch == 'FournisseurTest')
-                 }
-               }
+
             steps {
                 script {
                     try {

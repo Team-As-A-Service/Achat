@@ -7,11 +7,9 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tn.esprit.rh.achat.entities.Reglement;
 import tn.esprit.rh.achat.repositories.ReglementRepository;
-import tn.esprit.rh.achat.services.ProduitServiceImpl;
 import tn.esprit.rh.achat.services.ReglementServiceImpl;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ReglementTest {
+public class ReglementTestMock {
 
     @MockBean
     ReglementRepository rep;

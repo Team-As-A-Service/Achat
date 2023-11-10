@@ -29,7 +29,7 @@ pipeline {
         stage('Mockito Tests') {
                     steps {
                         script {
-                            sh 'mvn test '
+                           sh 'mvn test -Dtest=*Mock'
                         }
                     }
                 }

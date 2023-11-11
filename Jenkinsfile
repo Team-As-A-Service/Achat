@@ -12,7 +12,7 @@ pipeline {
 
                 script {
                  try {
-                    git branch: 'nidhal', credentialsId: 'ssh', url: 'https://ghp_5Uuc6I1nwqdVaFtYyIDY6otLMTd77E1Y@github.com/Team-As-A-Service/Achat.git'
+                    git branch: 'nidhal', credentialsId: 'sSh', url: 'https://ghp_5Uuc6I1nwqdVaFtYyIDY6otLMTd77E1Y@github.com/Team-As-A09883701-Service/Achat.git'
                 } catch (Exception e) {
                                         emailext(attachLog: true, body: 'The pipeline number' + ":$BUILD_NUMBER" + ' is failed !! Please check the logs file below !!', subject: 'Jenkins Pipeline Failed', to: 'nidhal.sassi@esprit.tn')
                        throw e

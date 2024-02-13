@@ -13,13 +13,13 @@ provider "openstack" {
   user_name   = "admin"
   tenant_name = "admin"
   password    = "secret"
-  auth_url    = "http://198.168.217.138/identity"
+  auth_url    = "http://198.168.22.121/identity"
   region      = "RegionOne"
 }
 
 resource "openstack_compute_instance_v2" "Cirros" {
   name            = "Cirros"
-  image_id        = "efba68d1-3fa2-42f6-b12e-3df67fe529bd"
+  image_id        = "ce620d5a-360c-457a-a25a-f6496f0947f7"
   flavor_id       = "c1"
   key_pair        = "my_keypair"
   security_groups = ["default"]

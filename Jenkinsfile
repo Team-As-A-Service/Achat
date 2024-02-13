@@ -113,5 +113,20 @@ pipeline {
                 }
             }
         }
+        stage('Terraform Deployment') {
+    steps {
+        script {
+            try {
+                    sh 'terraform init'
+                    sh 'terraform plan'
+                    sh 'terraform apply --auto-approve'
+            } catch (Exception e) {
+                emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                throw e
+            }
+        }
+    }
+}
+
     }
 }

@@ -79,7 +79,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                        dockerImage = docker.build registry + ":tagname"
                     } catch (Exception e) {
                         emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
                         throw e

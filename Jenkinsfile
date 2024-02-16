@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        git url: 'git@github.com:Team-As-A-Service/Achat.git',
+                        git url: 'https://github.com/Team-As-A-Service/Achat.git',
                             branch: 'FournisseurTest',
                             credentialsId: 'github'
                     } catch (Exception e) {

@@ -24,8 +24,6 @@ pipeline {
                 }
             }
         }
-       stage('Gitleaks - Secret Management') {
-   stages {
         stage('Gitleaks - Secret Management') {
             steps {
                 script {
@@ -39,8 +37,6 @@ pipeline {
                 }
             }
         }
-    }
-
         stage('MVN CLI') {
             steps {
                 script {

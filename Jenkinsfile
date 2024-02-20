@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SONARQUBE_URL = 'http://192.168.217.138:9000'
+        SONARQUBE_URL = 'http://192.168.100.10:9000'
         SONARQUBE_USERNAME = 'admin'
         SONARQUBE_PASSWORD = 'Facebook1'
         BRANCH_NAME = 'FournisseurTest'
@@ -112,7 +112,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
         stage('Terraform Deployment') {
     steps {
         script {
@@ -126,7 +126,7 @@ pipeline {
             }
         }
     }
-}
+}*/
 
     }
 }

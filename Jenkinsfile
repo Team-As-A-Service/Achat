@@ -125,7 +125,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Terraform Deployment') {
     steps {
         script {
@@ -139,7 +139,7 @@ pipeline {
             }
         }
     }
-}*/
+}
 
     }
 }

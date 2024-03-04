@@ -62,7 +62,7 @@ pipeline {
                         }
                     }
                 }
-        stage('SonarQube') {
+     /*   stage('SonarQube') {
 
             steps {
                 script {
@@ -74,9 +74,9 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
-        stage('Nexus deployment') {
+      /*  stage('Nexus deployment') {
             steps {
                 script {
                     try {
@@ -87,7 +87,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Building image') {
             steps {
                 script {

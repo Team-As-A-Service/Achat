@@ -62,7 +62,7 @@ pipeline {
                         }
                     }
                 }
-     /*   stage('SonarQube') {
+        stage('SonarQube') {
 
             steps {
                 script {
@@ -74,9 +74,9 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
 
-      /*  stage('Nexus deployment') {
+        stage('Nexus deployment') {
             steps {
                 script {
                     try {
@@ -87,7 +87,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
         stage('Building image') {
             steps {
                 script {
@@ -127,19 +127,19 @@ pipeline {
             }
         }*/
         stage('Terraform Deployment') {
-    steps {
-        script {
-            try {
-                    sh 'terraform init'
-                    sh 'terraform plan'
-                    sh 'terraform apply --auto-approve'
-            } catch (Exception e) {
-                emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
-                throw e
+        steps {
+            script {
+                try {
+                        sh 'terraform init'
+                        sh 'terraform plan'
+                        sh 'terraform apply --auto-approve'
+                } catch (Exception e) {
+                    emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Please check the logs file bellow !!', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                    throw e
+                }
             }
         }
     }
-}
 
     }
 }

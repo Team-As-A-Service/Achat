@@ -120,7 +120,7 @@ pipeline {
             steps {
                 script {
                     try {
-                       sh("infisical secrets --env=dev --path=/")
+                       sh("docker run -e INFISICAL_TOKEN=${INFISICAL_TOKEN} --rm mohamedridhaa/achat-back:tagname infisical secrets --env=dev --path=/")
                     } catch (Exception e) {
                         emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Gitleaks detected potential secrets in the repository. Please review and remove them before proceeding.', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
                         throw e

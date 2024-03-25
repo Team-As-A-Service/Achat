@@ -52,12 +52,12 @@ pipeline {
                 }
             }
         }
-       stage('Snyk Analysis') {
+      stage('snyk_analysis') {
             steps {
                 script {
-                    echo 'Testing...'
+                    echo 'Testing for dependencies, code source, and IaC...'
                     try {
-                        // Analyze dependencies
+                        // Scanning dependencies and code source
                         snykSecurity(
                             snykInstallation: SNYK_INSTALLATION,
                             snykTokenId: SNYK_TOKEN,
@@ -65,19 +65,21 @@ pipeline {
                             monitorProjectOnBuild: true,
                             additionalArguments: '--all-projects --d'
                         )
-                        
-                        // Analyze source code
-                        sh 'snyk test'
-                        
-                        // Analyze Infrastructure as Code (IaC)
-                        // Replace 'iac-directory' with your actual IaC directory
+
+                        // Scanning IaC (assuming it's in a directory named 'iac')
                         dir('azure') {
-                            sh 'snyk test'
+                            snykSecurity(
+                                snykInstallation: SNYK_INSTALLATION,
+                                snykTokenId: SNYK_TOKEN,
+                                failOnIssues: false,
+                                monitorProjectOnBuild: true,
+                                additionalArguments: '--all-projects --d'
+                            )
                         }
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
                         pipelineError = true
-                        error("Error during Snyk analysis: ${e.message}")
+                        error("Error during snyk_analysis: ${e.message}")
                     }
                 }
             }

@@ -42,8 +42,6 @@ pipeline {
             steps {
                 script {
                     try {
-                       sh("infisical init")
-                       sh("infisical run -- ./mvnw spring-boot:run --quiet")
                        sh("infisical secrets --env=dev --path=/")
                     } catch (Exception e) {
                         emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Gitleaks detected potential secrets in the repository. Please review and remove them before proceeding.', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')

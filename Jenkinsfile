@@ -9,6 +9,8 @@ pipeline {
         registryCredential = 'DockerHub'
         dockerImage = ''
         INFISICAL_TOKEN = credentials('infisical-service-token')
+        SNYK_INSTALLATION = 'snyk@latest'
+        SNYK_TOKEN = 'Snyk'
     }
     stages {
         stage("clone repo") {
@@ -50,6 +52,26 @@ pipeline {
                 }
             }
         }
+        stage('snyk_analysis') {
+      steps {
+        script {
+          echo 'Testing...'
+          try {
+            snykSecurity(
+              snykInstallation: SNYK_INSTALLATION,
+              snykTokenId: SNYK_TOKEN,
+              failOnIssues: false,
+              monitorProjectOnBuild: true,
+              additionalArguments: '--all-projects --d'
+            )
+          } catch (Exception e) {
+            currentBuild.result = 'FAILURE'
+            pipelineError = true
+            error("Error during snyk_analysis: ${e.message}")
+          }
+        }
+      }
+    }
         stage('MVN CLI') {
             steps {
                 script {

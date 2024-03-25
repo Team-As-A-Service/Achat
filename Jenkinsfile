@@ -52,26 +52,36 @@ pipeline {
                 }
             }
         }
-        stage('snyk_analysis') {
-      steps {
-        script {
-          echo 'Testing...'
-          try {
-            snykSecurity(
-              snykInstallation: SNYK_INSTALLATION,
-              snykTokenId: SNYK_TOKEN,
-              failOnIssues: false,
-              monitorProjectOnBuild: true,
-              additionalArguments: '--all-projects --d'
-            )
-          } catch (Exception e) {
-            currentBuild.result = 'FAILURE'
-            pipelineError = true
-            error("Error during snyk_analysis: ${e.message}")
-          }
+       stage('Snyk Analysis') {
+            steps {
+                script {
+                    echo 'Testing...'
+                    try {
+                        // Analyze dependencies
+                        snykSecurity(
+                            snykInstallation: SNYK_INSTALLATION,
+                            snykTokenId: SNYK_TOKEN,
+                            failOnIssues: false,
+                            monitorProjectOnBuild: true,
+                            additionalArguments: '--all-projects --d'
+                        )
+                        
+                        // Analyze source code
+                        sh 'snyk test'
+                        
+                        // Analyze Infrastructure as Code (IaC)
+                        // Replace 'iac-directory' with your actual IaC directory
+                        dir('azure') {
+                            sh 'snyk test'
+                        }
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        pipelineError = true
+                        error("Error during Snyk analysis: ${e.message}")
+                    }
+                }
+            }
         }
-      }
-    }
         stage('MVN CLI') {
             steps {
                 script {

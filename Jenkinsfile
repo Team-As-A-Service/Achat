@@ -127,7 +127,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }/*
         stage('Docker Compose') {
             steps {
                 script {
@@ -139,7 +139,7 @@ pipeline {
                     }
                 }
             }
-        }/*
+        }
         stage('Terraform Deployment') {
         steps {
             script {

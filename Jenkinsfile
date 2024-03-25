@@ -38,7 +38,18 @@ pipeline {
                 }
             }
         }*/
-        
+         stage('Infisical Secret Managment') {
+            steps {
+                script {
+                    try {
+                       sh("infisical secrets --env=dev --path=/")
+                    } catch (Exception e) {
+                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Gitleaks detected potential secrets in the repository. Please review and remove them before proceeding.', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
+                        throw e
+                    }
+                }
+            }
+        }
         stage('MVN CLI') {
             steps {
                 script {
@@ -116,18 +127,7 @@ pipeline {
                 }
             }
         }
-         stage('Infisical Secret Managment') {
-            steps {
-                script {
-                    try {
-                       sh("infisical secrets --env=dev --path=/")
-                    } catch (Exception e) {
-                        emailext (attachLog: true, body: 'The pipeline number'+":$BUILD_NUMBER"+' is failed !! Gitleaks detected potential secrets in the repository. Please review and remove them before proceeding.', subject: 'Jenkins Pipeline Failed', to: 'metjaku@gmail.com')
-                        throw e
-                    }
-                }
-            }
-        }/*
+        /*
         stage('Docker Compose') {
             steps {
                 script {

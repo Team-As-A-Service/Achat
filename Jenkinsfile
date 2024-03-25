@@ -9,7 +9,7 @@ pipeline {
         registryCredential = 'DockerHub'
         dockerImage = ''
         INFISICAL_TOKEN = credentials('infisical-service-token')
-        SNYK_INSTALLATION = 'snyk@latest'
+        SNYK_INSTALLATION = 'SnykV2Plugin'
         SNYK_TOKEN = 'Snyk'
     }
     stages {

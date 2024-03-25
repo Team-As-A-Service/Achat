@@ -49,7 +49,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
         stage('MVN CLI') {
             steps {
                 script {
